@@ -5,6 +5,8 @@ import * as OpenApiValidator from 'express-openapi-validator';
 import swaggerUi from "swagger-ui-express";
 import { errorMiddleware } from "./common/middleware";
 import translateRouter from "./translate/translate.router";
+import userRouter from "./auth/auth.router";
+import authRouter from "./auth/auth.router";
 
 dotenv.config();
 
@@ -45,6 +47,7 @@ app.use(OpenApiValidator.middleware({
 }));
 
 app.use('/translate', translateRouter);
+app.use('/auth', authRouter);
 
 app.get('/hello', (req, res) => {
     res.send('Hello World!');

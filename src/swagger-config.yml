@@ -70,7 +70,7 @@ paths:
           $ref: '#/components/responses/BadRequestError'
         '500':
           $ref: '#/components/responses/InternalServerError'
-  /user:
+  /auth:
     get:
       tags:
           - User
@@ -89,13 +89,15 @@ paths:
                   $ref: '#/components/schemas/UserList'
         '500':
           $ref: '#/components/responses/InternalServerError'
-  /user/register:
+  /auth/register:
     post:
       tags:
         - User
       summary: Register a new user
       description: Register a new user
       security: [ ]
+      requestBody:
+        $ref: '#/components/requestBodies/UserCreation'
       responses:
         '201':
           $ref: '#/components/responses/Created'
@@ -103,19 +105,15 @@ paths:
           $ref: '#/components/responses/InvalidBody'
         '500':
           $ref: '#/components/responses/InternalServerError'
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/User'
-  /user/login:
+  /auth/login:
     post:
       tags:
         - User
       summary: Login
       description: Login
       security: [ ]
+      requestBody:
+        $ref: '#/components/requestBodies/UserLogin'
       responses:
         '200':
           $ref: '#/components/responses/Login'
@@ -123,13 +121,7 @@ paths:
           $ref: '#/components/responses/InvalidBody'
         '500':
           $ref: '#/components/responses/InternalServerError'
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/User'
-  /user/{userId}:
+  /auth/{userId}:
     get:
       tags:
         - User
@@ -178,7 +170,7 @@ components:
           example: "Bonjour à tous"
         language:
           type: string
-          example: "en-GB"
+          example: "en-US"
         discordId:
           type: string
           example: "123456789"
@@ -217,6 +209,15 @@ components:
     UserCreation:
       required: true
       description: User creation
+      content:
+        application/json:
+          schema:
+            required: [ username, password ]
+            allOf:
+              - $ref: '#/components/schemas/User'
+    UserLogin:
+      required: true
+      description: User login
       content:
         application/json:
           schema:

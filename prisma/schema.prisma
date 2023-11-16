@@ -21,8 +21,11 @@ model Translate {
 
 model User {
   id         String      @id @default(uuid())
+  username   String      @default("")
+  password   String      @default("")
+  role       String      @default("user")
   discordId  String
-  preferLang String      @default("en-GB")
+  preferLang String      @default("en-US")
   createdAt  DateTime    @default(now())
   Translate  Translate[]
 }

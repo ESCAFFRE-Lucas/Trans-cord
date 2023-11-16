@@ -7,8 +7,8 @@ export const errorMiddleware = (error: HttpException, request: Request, response
     if (process.env.NODE_ENV === "test") {
         console.log(error);
     }
-    response ? response.status(status).send({
+    response.status(status).send({
         status,
         message,
-    }) : next();
+    })
 };

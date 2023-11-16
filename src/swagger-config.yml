@@ -1,0 +1,83 @@
+openapi: 3.0.0
+info:
+  title: My API
+  version: '1.0.0'
+  description: Traduction API
+tags:
+  - name: Traduction
+    description: Operations related to traductions
+paths:
+  /translate:
+    post:
+      tags:
+        - Traduction
+      summary: Translate a text
+      description: Translate a text
+      security: [ ]
+      responses:
+        200:
+          $ref: '#/components/responses/Ok'
+        400:
+          $ref: '#/components/responses/BadRequestError'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Traduction'
+    get:
+      tags:
+        - Traduction
+      summary: Get all traductions
+      description: Get all traductions
+      security: [ ]
+      responses:
+        200:
+          $ref: '#/components/responses/Ok'
+        400:
+          $ref: '#/components/responses/BadRequestError'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+  /translate/{userId}:
+    get:
+      tags:
+        - Traduction
+      summary: Get a traduction by user id
+      description: Get a traduction by user id
+      security: [ ]
+      responses:
+        200:
+          $ref: '#/components/responses/Ok'
+        400:
+          $ref: '#/components/responses/BadRequestError'
+        500:
+          $ref: '#/components/responses/InternalServerError'
+
+components:
+  schemas:
+    Traduction:
+      type: object
+      properties:
+        content:
+          type: string
+          example: "This is a traduction"
+        language:
+          type: string
+          example: "en"
+  responses:
+    Ok:
+      description: OK
+    Created:
+      description: Created
+    BadRequestError:
+      description: Bad request
+    NoContentError:
+      description: No content
+    ForbiddenError:
+      description: You don't have permission to access this resource
+    NotFoundError:
+      description: Resource not found
+    InternalServerError:
+      description: Internal Server Error

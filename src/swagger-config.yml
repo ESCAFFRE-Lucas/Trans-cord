@@ -18,7 +18,7 @@ paths:
         200:
           $ref: '#/components/responses/Ok'
         400:
-          $ref: '#/components/responses/BadRequestError'
+          $ref: '#/components/responses/MissingFieldsError'
         500:
           $ref: '#/components/responses/InternalServerError'
       requestBody:
@@ -59,18 +59,24 @@ components:
   schemas:
     Traduction:
       type: object
+      required: [text, language, discordId]
       properties:
-        content:
+        text:
           type: string
-          example: "This is a traduction"
+          example: "Bonjour à tous"
         language:
           type: string
-          example: "en"
+          example: "en-GB"
+        discordId:
+          type: string
+          example: "123456789"
   responses:
     Ok:
       description: OK
     Created:
       description: Created
+    MissingFieldsError:
+      description: Missing fields
     BadRequestError:
       description: Bad request
     NoContentError:

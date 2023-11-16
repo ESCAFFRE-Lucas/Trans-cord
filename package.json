@@ -1,0 +1,8 @@
+{
+  "name": "trans-cord",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:ESCAFFRE-Lucas/trans-cord.git",
+  "author": "tonycava <anthony.cavagne@ynov.com>",
+  "license": "MIT"
+}

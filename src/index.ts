@@ -4,6 +4,7 @@ import swaggerJSDoc, { Options } from "swagger-jsdoc";
 import * as OpenApiValidator from 'express-openapi-validator';
 import swaggerUi from "swagger-ui-express";
 import { errorMiddleware } from "./common/middleware";
+import translateRouter from "./translate/translate.router";
 
 dotenv.config();
 
@@ -41,8 +42,9 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 app.use(express.json());
 app.use(OpenApiValidator.middleware({
     apiSpec: './src/swagger-config.yml',
-    validateResponses: true,
 }));
+
+app.use('/translate', translateRouter);
 
 app.get('/hello', (req, res) => {
     res.send('Hello World!');

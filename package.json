@@ -9,6 +9,7 @@
     "start": "nodemon --exec ts-node src/index.ts"
   },
   "dependencies": {
+    "deepl-node": "^1.11.0",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "express-openapi-validator": "^5.1.0",

@@ -9,6 +9,7 @@ jobs:
       DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
       DOCKER_HUB_TOKEN: ${{ secrets.DOCKER_HUB_TOKEN }}
       IMAGE_NAME_DISCORD_BOT: dev-api-discord-bot
+      IMAGE_NAME_SERVER_API: dev-api-server
     steps:
       - uses: actions/checkout@v3
       - name: Build
@@ -17,8 +18,15 @@ jobs:
       - name: Docker login
         run: echo $DOCKER_HUB_TOKEN | sudo docker login -u $DOCKER_HUB_USERNAME --password-stdin
 
+      - name: Define image hash
+        run: IMAGE_HASH=$(echo $GITHUB_SHA | cut -c 1-6)
+
       - name: Build and push discord bot image
         run: |
-          IMAGE_HASH=$(echo $GITHUB_SHA | cut -c 1-6)
           sudo docker build -t $DOCKER_HUB_USERNAME/$IMAGE_NAME_DISCORD_BOT:$IMAGE_HASH bot
-          sudo docker push $DOCKER_HUB_USERNAME/$IMAGE_NAME_DISCORD_BOT:$IMAGE_HASH
+          sudo docker push $DOCKER_HUB_USERNAME/$IMAGE_NAME_DISCORD_BOT:$IMAGE_HASH    
+
+      - name: Build and push discord api server image
+        run: |
+          sudo docker build -t $DOCKER_HUB_USERNAME/$IMAGE_NAME_SERVER_API:$IMAGE_HASH bot
+          sudo docker push $DOCKER_HUB_USERNAME/$IMAGE_NAME_SERVER_API:$IMAGE_HASH

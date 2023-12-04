@@ -29,3 +29,6 @@ jobs:
           IMAGE_HASH=$(echo $GITHUB_SHA | cut -c 1-6)
           sudo docker build -t $DOCKER_HUB_USERNAME/$IMAGE_NAME_SERVER_API:$IMAGE_HASH server
           sudo docker push $DOCKER_HUB_USERNAME/$IMAGE_NAME_SERVER_API:$IMAGE_HASH
+
+      - name: Deploy
+        run: sudo docker compose up -d

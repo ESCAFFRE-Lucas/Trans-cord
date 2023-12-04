@@ -16,9 +16,9 @@ jobs:
         uses: actions/setup-node@v2
 
       - name: Docker login
-        run: echo $DOCKER_HUB_TOKEN | docker login -u $DOCKER_HUB_USERNAME --password-stdin
+        run: echo $DOCKER_HUB_TOKEN | sudo docker login -u $DOCKER_HUB_USERNAME --password-stdin
 
       - name: Build and push discord bot image
         run: |
-          docker build -t $DOCKER_HUB_USERNAME/$IMAGE_NAME_DISCORD_BOT:$IMAGE_HASH bot
-          docker push $DOCKER_HUB_USERNAME/$IMAGE_NAME_DISCORD_BOT:$IMAGE_HASH
+          sudo docker build -t $DOCKER_HUB_USERNAME/$IMAGE_NAME_DISCORD_BOT:$IMAGE_HASH bot
+          sudo docker push $DOCKER_HUB_USERNAME/$IMAGE_NAME_DISCORD_BOT:$IMAGE_HASH

@@ -6,7 +6,6 @@ import bcrypt from "bcrypt";
 
 const register = async (req: Request, res: Response) => {
     const { username, password } = req.body;
-    console.log(username, password)
     try {
         const user = await addUser({
             username: username,
@@ -14,7 +13,7 @@ const register = async (req: Request, res: Response) => {
             discordId: "123456789",
             role: "admin"
         });
-        const token = signToken({ id: user?.id, username: user?.username, role: user?.role });
+        const token = signToken({ id: user?.id, username: user?.username, role: user?.role, discordId: user?.discordId });
         res.status(201).json({ token });
     } catch (error) {
         res.status(400).json(error);
@@ -32,7 +31,7 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
         if (!bcrypt.compareSync(password, user?.password!)) {
             next({ status: 401, message: "Unauthorized" })
         }
-        const token = signToken({ id: user?.id, username: user?.username, role: user?.role });
+        const token = signToken({ id: user?.id, username: user?.username, role: user?.role, discordId: user?.discordId });
         res.status(200).json({ token });
     } catch (error) {
         res.status(400).json(error);
@@ -40,11 +39,11 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
 }
 
 const getAllUsers = async (req: Request, res: Response) => {
-    const users = getUsers();
+    const users = await getUsers();
     if (!users) {
         res.status(404).json({message: "No users found"});
     }
-    res.status(200).json({message: "Users fetched", data: users});
+    res.status(200).json({message: "Users fetched", data: [...users]});
 }
 
 const getUserByHisId = async (req: Request, res: Response) => {
@@ -58,5 +57,7 @@ const getUserByHisId = async (req: Request, res: Response) => {
 
 export default {
     register,
-    login
+    login,
+    getAllUsers,
+    getUserByHisId
 }

@@ -11,16 +11,17 @@ datasource db {
 }
 
 model Translate {
-  id        String   @id @default(uuid())
-  text      String
-  language  String
-  user      User     @relation(fields: [discordId], references: [id])
-  discordId String
-  createdAt DateTime @default(now())
+  id              String   @id @default(uuid())
+  text            String
+  language        String
+  translationText String
+  user            User     @relation(fields: [discordId], references: [id])
+  discordId       String
+  createdAt       DateTime @default(now())
 }
 
 model User {
-  id         String      @id @default(uuid())
+  id         String      @unique @default(uuid())
   username   String      @default("")
   password   String      @default("")
   role       String      @default("user")
@@ -28,4 +29,6 @@ model User {
   preferLang String      @default("en-US")
   createdAt  DateTime    @default(now())
   Translate  Translate[]
+
+  @@id([discordId, id])
 }

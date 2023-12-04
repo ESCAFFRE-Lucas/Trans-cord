@@ -11,7 +11,7 @@ import authRouter from "./auth/auth.router";
 dotenv.config();
 
 const port = process.env.PORT || 3000;
-const app = express();
+export const app = express();
 
 interface SwaggerDefinition {
     openapi: string;

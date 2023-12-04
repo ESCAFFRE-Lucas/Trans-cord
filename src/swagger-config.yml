@@ -4,8 +4,12 @@ info:
   version: '1.0.0'
   description: Translate API
 tags:
+  - name: User
+    description: Operations related to users
   - name: Translate
     description: Operations related to translate
+security:
+  - apiKey: [ ]
 paths:
   /translate:
     post:
@@ -14,7 +18,8 @@ paths:
       summary: Translate a text
       description: Translate a text
       operationId: addTranslate
-      security: [ ]
+      security:
+        - apiKey: [ ]
       requestBody:
         $ref: '#/components/requestBodies/TranslateCreation'
       responses:
@@ -30,7 +35,8 @@ paths:
       summary: Get all traductions
       description: Returns all traductions
       operationId: getTraductions
-      security: [ ]
+      security:
+        - apiKey: [ ]
       responses:
         '200':
           description: Traductions fetched successfully
@@ -42,18 +48,19 @@ paths:
                   $ref: '#/components/schemas/TranslateList'
         '500':
           $ref: '#/components/responses/InternalServerError'
-  /translate/{userId}:
+  /translate/{discordId}:
     get:
       tags:
         - Translate
-      summary: Get a translation by user id
-      description: Get a translation by user id
-      operationId: getTraductionByUserId
-      security: [ ]
+      summary: Get a translation by discord id
+      description: Get a translation by discord id
+      operationId: getTraductionByDiscordId
+      security:
+        - apiKey: [ ]
       parameters:
-        - name: userId
+        - name: discordId
           in: path
-          description: User id
+          description: Discord id
           required: true
           schema:
             type: string
@@ -77,7 +84,8 @@ paths:
       summary: Get all users
       description: Returns all users
       operationId: getUsers
-      security: [ ]
+      security:
+        - apiKey: [ ]
       responses:
         '200':
           description: Users fetched successfully
@@ -87,6 +95,8 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/UserList'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
         '500':
           $ref: '#/components/responses/InternalServerError'
   /auth/register:
@@ -102,7 +112,7 @@ paths:
         '201':
           $ref: '#/components/responses/Created'
         '400':
-          $ref: '#/components/responses/InvalidBody'
+          $ref: '#/components/responses/MissingFieldsError'
         '500':
           $ref: '#/components/responses/InternalServerError'
   /auth/login:
@@ -118,7 +128,7 @@ paths:
         '200':
           $ref: '#/components/responses/Login'
         '400':
-          $ref: '#/components/responses/InvalidBody'
+          $ref: '#/components/responses/MissingFieldsError'
         '500':
           $ref: '#/components/responses/InternalServerError'
   /auth/{userId}:
@@ -127,7 +137,8 @@ paths:
         - User
       summary: Get a user by id
       description: Get a user by id
-      security: [ ]
+      security:
+        - apiKey: [ ]
       responses:
         '200':
           description: User fetched successfully
@@ -137,9 +148,16 @@ paths:
                 $ref: '#/components/schemas/User'
         '400':
           $ref: '#/components/responses/BadRequestError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
         '500':
           $ref: '#/components/responses/InternalServerError'
 components:
+  securitySchemes:
+    apiKey:
+      type: apiKey
+      name: Authorization
+      in: header
   parameters:
     idInPath:
       name: id
@@ -285,6 +303,21 @@ components:
               message:
                 type: string
                 example: "Missing fields"
+    ForbiddenError:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            type: object
+            required: [ success, message ]
+            properties:
+              success:
+                  type: boolean
+                  default: false
+                  example: false
+              message:
+                  type: string
+                  example: "Forbidden"
     BadRequestError:
       description: Bad request
       content:

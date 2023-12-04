@@ -2,9 +2,10 @@ import jwt from 'jsonwebtoken';
 import { Request, Response, NextFunction } from 'express';
 
 export type JwtPayload  =  {
-    id: (string | undefined)
-    username: (string | undefined)
-    role: (string | undefined)
+    id: string | undefined
+    username: string | undefined
+    role: string | undefined
+    discordId: string | undefined
 }
 
 export const signToken = (payload: JwtPayload) => {

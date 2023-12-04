@@ -1,0 +1,22 @@
+version: '3.7'
+
+services:
+  bot:
+    platform: "linux/amd64"
+    image: tonycava/dev-api-discord-bot:latest
+    container_name: discord-bot
+    build:
+      context: bot
+    env_file: .env
+    restart: always
+  app:
+    ports:
+      - "3000:${PORT}"
+    platform: "linux/amd64"
+    image: tonycava/dev-api-server:latest
+    container_name: api-server
+    build:
+      context: server
+    env_file: .env
+    restart: always
+

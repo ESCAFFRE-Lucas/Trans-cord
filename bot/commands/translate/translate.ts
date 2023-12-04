@@ -1,5 +1,6 @@
-import { Interaction, SlashCommandBuilder } from 'discord.js';
+import { ChatInputCommandInteraction, SlashCommandBuilder } from 'discord.js';
 import { options } from './options.json';
+import { Option } from '../../common/utils';
 
 const translateCommand =
 	new SlashCommandBuilder()
@@ -24,12 +25,13 @@ const translateCommand =
 		.toJSON();
 
 
-const translateAction = (interaction: Interaction) => {
-	if (!interaction.isChatInputCommand()) return;
-	const textToTranslate = interaction.options.getString('text') ?? "Hello everyone!";
-	const langToTranslate = interaction.options.getString('lang') ?? "FR";
+const translateAction = async (interaction: ChatInputCommandInteraction) => {
+	const textToTranslate = interaction.options.getString(Option.TEXT) ?? 'Hello everyone!';
+	const langToTranslate = interaction.options.getString(Option.LANG) ?? 'FR';
 
+	console.log(`Translating "${textToTranslate}" to ${langToTranslate}`);
 
+	await interaction.reply("ez");
 };
 
 export default {

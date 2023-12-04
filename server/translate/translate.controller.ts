@@ -6,8 +6,6 @@ dotenv.config();
 
 const authKey = process.env.API_KEY_DEEPL ?? '';
 const translator = new deepl.Translator(authKey);
-
-
 const translateString = async (req: Request, res: Response) => {
     const { text, language, discordId } = req.body;
     const translation = await translator.translateText(text, null, language);

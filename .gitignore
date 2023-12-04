@@ -73,7 +73,7 @@ web_modules/
 .yarn-integrity
 
 # dotenv environment variable files
-.env
+server/.env
 .env.development.local
 .env.test.local
 .env.production.local
@@ -130,5 +130,5 @@ dist
 .pnp.*
 
 .idea
-/prisma/dev.db
-/prisma/dev.db-journal
+/server/prisma/dev.db
+/server/prisma/dev.db-journal

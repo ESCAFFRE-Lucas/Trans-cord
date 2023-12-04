@@ -1,9 +1,7 @@
 import { Client, Events, IntentsBitField } from 'discord.js';
-import dotenv from 'dotenv';
-import { Command } from './command';
-import Translate from '../commands/translate/translate';
-
-dotenv.config();
+import 'dotenv/config'
+import { Command } from './common/utils';
+import Translate from './commands/translate/translate';
 
 export const client = new Client({
 	intents: [
@@ -17,12 +15,11 @@ export const client = new Client({
 client.on(Events.ClientReady, (e) => {
 	console.log(`Logged in as ${client.user?.tag}!`);
 });
-
-client.on('interactionCreate', async interaction => {
+client.on(Events.InteractionCreate, async (interaction) => {
 	if (!interaction.isChatInputCommand()) return;
 
 	if (interaction.commandName === Command.TRANSLATE) {
-		Translate.translateAction(interaction);
+		await Translate.translateAction(interaction);
 	}
 });
 

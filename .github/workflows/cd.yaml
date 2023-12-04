@@ -31,4 +31,4 @@ jobs:
           sudo docker push $DOCKER_HUB_USERNAME/$IMAGE_NAME_SERVER_API:$IMAGE_HASH
 
       - name: Deploy
-        run: ls
+        run: sudo docker-compose up -d

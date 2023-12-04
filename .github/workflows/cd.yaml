@@ -28,5 +28,5 @@ jobs:
 
       - name: Build and push discord api server image
         run: |
-          sudo docker build -t $DOCKER_HUB_USERNAME/$IMAGE_NAME_SERVER_API:$IMAGE_HASH bot
+          sudo docker build -t $DOCKER_HUB_USERNAME/$IMAGE_NAME_SERVER_API:$IMAGE_HASH server
           sudo docker push $DOCKER_HUB_USERNAME/$IMAGE_NAME_SERVER_API:$IMAGE_HASH

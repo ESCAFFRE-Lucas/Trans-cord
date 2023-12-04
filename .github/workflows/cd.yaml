@@ -19,7 +19,7 @@ jobs:
         run: echo $DOCKER_HUB_TOKEN | sudo docker login -u $DOCKER_HUB_USERNAME --password-stdin
 
       - name: Define image hash
-        run: IMAGE_HASH=$(echo $GITHUB_SHA | cut -c 1-6)
+        run: export IMAGE_HASH=$(echo $GITHUB_SHA | cut -c 1-6)
 
       - name: Build and push discord bot image
         run: |

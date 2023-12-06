@@ -1,6 +1,7 @@
 import { ChatInputCommandInteraction, SlashCommandBuilder } from 'discord.js';
 import { options } from './options.json';
 import { Option } from '../../common/utils';
+import axios from 'axios';
 
 const translateCommand =
 	new SlashCommandBuilder()
@@ -16,7 +17,7 @@ const translateCommand =
 			option
 				.setName('lang')
 				.setDescription('Lang to translate')
-				.setRequired(true)
+				.setRequired(false)
 				.addChoices(
 					// Sort the array based on some criteria (e.g., alphabetically by language name)
 					...options.sort((a, b) => a.value.localeCompare(b.value))
@@ -27,11 +28,15 @@ const translateCommand =
 
 const translateAction = async (interaction: ChatInputCommandInteraction) => {
 	const textToTranslate = interaction.options.getString(Option.TEXT) ?? 'Hello everyone!';
-	const langToTranslate = interaction.options.getString(Option.LANG) ?? 'FR';
+	const langToTranslate = interaction.options.getString(Option.LANG);
 
-	console.log(`Translating "${textToTranslate}" to ${langToTranslate}`);
+	const response = await axios.post(`${process.env.API_URL}/translate`, {
+		text: textToTranslate,
+		lang: langToTranslate,
+		discordId: interaction.user.id
+	});
 
-	await interaction.reply("ez");
+	await interaction.reply(JSON.stringify(response.data));
 };
 
 export default {

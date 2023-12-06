@@ -4,8 +4,10 @@ import * as OpenApiValidator from 'express-openapi-validator';
 import swaggerUi, { SwaggerOptions } from 'swagger-ui-express';
 import { errorMiddleware } from './common/middleware';
 import translateRouter from './translate/translate.router';
-import 'dotenv/config';
+import authRouter from './auth/auth.router';
 import redis from './lib/redis';
+
+import 'dotenv/config';
 
 const port = +(process.env.PORT || 3000);
 const app = express();
@@ -32,13 +34,18 @@ app.use(express.json());
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
-app.use(OpenApiValidator.middleware({
-	apiSpec: `${__dirname}/swagger-config.yml`,
-}));
+// app.use(OpenApiValidator.middleware({
+//  apiSpec: `${__dirname}/swagger-config.yml`,
+// }));
 
 app.use('/translate', translateRouter);
+app.use('/auth', authRouter);
 
-app.use(errorMiddleware);
+app.get('/hello', (req, res) => {
+	res.send('Hello World!');
+});
+
+app.use(errorMiddleware)
 
 if (process.env.NODE_ENV !== 'test') {
 	app.listen(port, () => {

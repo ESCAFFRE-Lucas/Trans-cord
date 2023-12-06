@@ -11,7 +11,7 @@ const commands = [
 
 const rest = new REST({ version: '10' }).setToken(process.env.DISCORD_TOKEN!);
 
-(async () => {
+export const registerCommands = async () => {
 	try {
 		console.log(commands);
 		console.log('Started refreshing application (/) commands.');
@@ -25,4 +25,4 @@ const rest = new REST({ version: '10' }).setToken(process.env.DISCORD_TOKEN!);
 	} catch (error) {
 		console.error(error);
 	}
-})();
+};

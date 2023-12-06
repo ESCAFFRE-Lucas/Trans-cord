@@ -5,4 +5,6 @@ const translateRouter = Router();
 
 translateRouter.post('/', translateController.translateString);
 
+translateRouter.get('/:discordId', translateController.getTranslationsByDiscordId);
+
 export default translateRouter;

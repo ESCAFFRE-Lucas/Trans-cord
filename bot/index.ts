@@ -1,7 +1,8 @@
 import { Client, Events, IntentsBitField } from 'discord.js';
-import 'dotenv/config'
+import 'dotenv/config';
 import { Command } from './common/utils';
 import Translate from './commands/translate/translate';
+import { registerCommands } from './common/register-commands';
 
 export const client = new Client({
 	intents: [
@@ -23,4 +24,6 @@ client.on(Events.InteractionCreate, async (interaction) => {
 	}
 });
 
-client.login(process.env.DISCORD_TOKEN);
+client.login(process.env.DISCORD_TOKEN).then(async () => {
+	await registerCommands();
+});

@@ -18,8 +18,7 @@ paths:
       summary: Translate a text
       description: Translate a text
       operationId: addTranslate
-      security:
-        - apiKey: [ ]
+      security: []
       requestBody:
         $ref: '#/components/requestBodies/TranslateCreation'
       responses:

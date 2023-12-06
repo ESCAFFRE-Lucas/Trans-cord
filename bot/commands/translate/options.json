@@ -1,0 +1,29 @@
+{
+  "options": [
+    {"value": "BG", "name": "Bulgarian"},
+    {"value": "DA", "name": "Danish"},
+    {"value": "DA", "name": "Danish"},
+    {"value": "DE", "name": "German"},
+    {"value": "EN-US", "name": "English"},
+    {"value": "ES", "name": "Spanish"},
+    {"value": "FR", "name": "French"},
+    {"value": "HU", "name": "Hungarian"},
+    {"value": "ID", "name": "Indonesian"},
+    {"value": "IT", "name": "Italian"},
+    {"value": "JA", "name": "Japanese"},
+    {"value": "KO", "name": "Korean"},
+    {"value": "LT", "name": "Lithuanian"},
+    {"value": "NB", "name": "Norwegian"},
+    {"value": "NL", "name": "Dutch"},
+    {"value": "PL", "name": "Polish"},
+    {"value": "PT-PT", "name": "Portuguese"},
+    {"value": "RO", "name": "Romanian"},
+    {"value": "RU", "name": "Russian"},
+    {"value": "SK", "name": "Slovak"},
+    {"value": "SL", "name": "Slovenian"},
+    {"value": "SV", "name": "Swedish"},
+    {"value": "TR", "name": "Turkish"},
+    {"value": "UK", "name": "Ukrainian"},
+    {"value": "ZH", "name": "Chinese"}
+  ]
+}

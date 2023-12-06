@@ -1,0 +1,35 @@
+version: '3.7'
+
+services:
+  bot:
+    platform: "linux/amd64"
+    image: tonycava/dev-api-discord-bot:latest
+    container_name: discord-bot
+    build:
+      context: bot
+    environment:
+      DISCORD_TOKEN: ${DISCORD_TOKEN}
+      DISCORD_GUILD_ID: ${DISCORD_GUILD_ID}
+      DISCORD_CLIENT_ID: ${DISCORD_CLIENT_ID}
+      API_URL: ${API_URL}
+    restart: always
+  app:
+    ports:
+      - "3000:3000"
+    platform: "linux/amd64"
+    image: tonycava/dev-api-server:latest
+    container_name: api-server
+    build:
+      context: server
+    environment:
+      PORT: ${PORT}
+      DATABASE_URL: ${DATABASE_URL}
+      API_KEY_DEEPL: ${API_KEY_DEEPL}
+      REDIS_URL: ${REDIS_URL}
+    restart: always
+  redis:
+    image: redis
+    container_name: discord-bot-redis
+    ports:
+      - "6379:6379"
+    restart: always

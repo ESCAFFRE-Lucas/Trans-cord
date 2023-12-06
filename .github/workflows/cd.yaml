@@ -1,0 +1,42 @@
+name: Dev API Continuous Deployment
+
+on: [ push ]
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+    env:
+      DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
+      DOCKER_HUB_TOKEN: ${{ secrets.DOCKER_HUB_TOKEN }}
+      IMAGE_NAME_DISCORD_BOT: dev-api-discord-bot
+      IMAGE_NAME_SERVER_API: dev-api-server
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build
+        uses: actions/setup-node@v2
+
+      - name: Docker login
+        run: echo $DOCKER_HUB_TOKEN | sudo docker login -u $DOCKER_HUB_USERNAME --password-stdin
+
+      - name: Build and push discord bot image
+        run: |
+          IMAGE_HASH=$(echo $GITHUB_SHA | cut -c 1-6)
+          sudo docker build -t $DOCKER_HUB_USERNAME/$IMAGE_NAME_DISCORD_BOT:$IMAGE_HASH bot
+          sudo docker push $DOCKER_HUB_USERNAME/$IMAGE_NAME_DISCORD_BOT:$IMAGE_HASH    
+
+      - name: Build and push discord api server image
+        run: |
+          IMAGE_HASH=$(echo $GITHUB_SHA | cut -c 1-6)
+          sudo docker build -t $DOCKER_HUB_USERNAME/$IMAGE_NAME_SERVER_API:$IMAGE_HASH server
+          sudo docker push $DOCKER_HUB_USERNAME/$IMAGE_NAME_SERVER_API:$IMAGE_HASH
+
+      - name: Deploy
+        env:
+          DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
+          DISCORD_GUILD_ID: ${{ secrets.DISCORD_GUILD_ID }}
+          DISCORD_CLIENT_ID: ${{ secrets.DISCORD_CLIENT_ID }}
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          API_KEY_DEEPL: ${{ secrets.API_KEY_DEEPL }}
+          API_URL: ${{ secrets.API_URL }}
+          PORT: ${{ secrets.PORT }}
+        run: sudo docker-compose -f docker-compose.prod.yml up -d

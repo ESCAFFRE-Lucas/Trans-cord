@@ -31,4 +31,12 @@ jobs:
           sudo docker push $DOCKER_HUB_USERNAME/$IMAGE_NAME_SERVER_API:$IMAGE_HASH
 
       - name: Deploy
-        run: sudo docker-compose up -d
+        env:
+          DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
+          DISCORD_GUILD_ID: ${{ secrets.DISCORD_GUILD_ID }}
+          DISCORD_CLIENT_ID: ${{ secrets.DISCORD_CLIENT_ID }}
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          API_KEY_DEEPL: ${{ secrets.API_KEY_DEEPL }}
+          API_URL: ${{ secrets.API_URL }}
+          PORT: ${{ secrets.PORT }}
+        run: sudo docker-compose -f docker-compose.prod.yml up -d

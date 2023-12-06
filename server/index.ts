@@ -4,8 +4,8 @@ import * as OpenApiValidator from 'express-openapi-validator';
 import swaggerUi, { SwaggerOptions } from 'swagger-ui-express';
 import { errorMiddleware } from './common/middleware';
 import translateRouter from './translate/translate.router';
-
 import 'dotenv/config';
+import redis from './lib/redis';
 
 const port = +(process.env.PORT || 3000);
 const app = express();
@@ -21,9 +21,10 @@ const swaggerOptions: SwaggerOptions = {
 	apis: [`${__dirname}/**/*.ts`, `${__dirname}/**/*.yaml`, `${__dirname}/**/*.yml`],
 };
 
-app.get('/', (req, res) => {
-	console.log('hello');
-	return res.send({ message: 'Hello World!' });
+app.get('/', async (req, res) => {
+	redis.set('hello', 'world');
+	const value = await redis.get('hello');
+	return res.send({ message: value });
 });
 
 const swaggerDocs = swaggerJSDoc(swaggerOptions);

@@ -24,7 +24,7 @@ services:
       context: server
     environment:
       PORT: ${PORT}
-      DATABASE_URL: ${DATABASE_URL}
+      DATABASE_URL: $DATABASE_URL
       API_KEY_DEEPL: ${API_KEY_DEEPL}
       REDIS_URL: ${REDIS_URL}
     restart: always

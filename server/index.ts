@@ -10,7 +10,7 @@ import redis from './lib/redis';
 import 'dotenv/config';
 
 const port = +(process.env.PORT || 3000);
-const app = express();
+export const app = express();
 
 const swaggerOptions: SwaggerOptions = {
 	definition: {

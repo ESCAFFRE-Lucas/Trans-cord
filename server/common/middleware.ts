@@ -16,6 +16,23 @@ export const checkToken = async (
 	}
 };
 
+export const checkRequestIsFromDiscord = (
+	req: Request,
+	res: Response,
+	next: NextFunction
+) => {
+   const discordKey = req.headers['x-discord-signature'] as string;
+   if (!discordKey) {
+	  next(new HttpException(401, 'Unauthorized'));
+	  return;
+   }
+
+   if (discordKey !== process.env.API_ACCESS_TOKEN) {
+	  next(new HttpException(401, 'Unauthorized'));
+   }
+   next();
+}
+
 export const checkAuth = async (
 	req: Request,
 	res: Response,

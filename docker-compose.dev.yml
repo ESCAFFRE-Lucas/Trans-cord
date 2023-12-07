@@ -26,3 +26,4 @@ services:
       - "6379:6379"
     restart: always
     env_file: .env
+    command: [ "redis-server", "--requirepass", "$REDIS_PASSWORD" ]

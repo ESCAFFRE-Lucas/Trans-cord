@@ -2,7 +2,6 @@
   "options": [
     {"value": "BG", "name": "Bulgarian"},
     {"value": "DA", "name": "Danish"},
-    {"value": "DA", "name": "Danish"},
     {"value": "DE", "name": "German"},
     {"value": "EN-US", "name": "English"},
     {"value": "ES", "name": "Spanish"},

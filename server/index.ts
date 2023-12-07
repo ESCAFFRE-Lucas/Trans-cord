@@ -24,7 +24,7 @@ const swaggerOptions: SwaggerOptions = {
 };
 
 app.get('/', async (req, res) => {
-	redis.set('hello', 'world');
+	redis.set('hello', Math.random().toString());
 	const value = await redis.get('hello');
 	return res.send({ message: value });
 });
@@ -40,10 +40,6 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 app.use('/translate', translateRouter);
 app.use('/auth', authRouter);
-
-app.get('/hello', (req, res) => {
-	res.send('Hello World!');
-});
 
 app.use(errorMiddleware)
 

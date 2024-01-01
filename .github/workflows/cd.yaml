@@ -43,4 +43,8 @@ jobs:
           API_KEY_DEEPL: ${{ secrets.API_KEY_DEEPL }}
           API_URL: ${{ secrets.API_URL }}
           PORT: ${{ secrets.PORT }}
-        run: sudo docker-compose -f docker-compose.prod.yml up -d
+        run: |
+          pwd
+          touch .env
+          echo "PORT=$PORT" >> .env
+          sudo docker-compose -f docker-compose.prod.yml up -d

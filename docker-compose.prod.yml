@@ -11,6 +11,7 @@ services:
       DISCORD_TOKEN: ${DISCORD_TOKEN}
       DISCORD_GUILD_ID: ${DISCORD_GUILD_ID}
       DISCORD_CLIENT_ID: ${DISCORD_CLIENT_ID}
+      API_ACCESS_TOKEN: ${API_ACCESS_TOKEN}
       API_URL: ${API_URL}
 
     restart: always
@@ -24,9 +25,10 @@ services:
       context: server
     environment:
       PORT: ${PORT}
-      DATABASE_URL: $DATABASE_URL
+      DATABASE_URL: ${DATABASE_URL}
       API_KEY_DEEPL: ${API_KEY_DEEPL}
       REDIS_URL: ${REDIS_URL}
+      API_ACCESS_TOKEN: ${API_ACCESS_TOKEN}
     restart: always
   redis:
     image: redis

@@ -20,7 +20,7 @@ const translateHistoryAction = async (interaction: ChatInputCommandInteraction) 
 
 		const fields = response.data.data.map((item) => {
 			return {
-				name: `You translated "${item.text}" from "${item.language}" to "${item.translationText}" in "${item.language}" at ${moment(item.createdAt).format('DD/MM/YYYY')}`,
+				name: `You translated "${item.text}" to "${item.translationText}" with "${item.language}" language at ${moment(item.createdAt).format('DD/MM/YYYY')}`,
 				value: `The id of this translation is : "${item.id}"`
 			};
 		});

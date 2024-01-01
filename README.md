@@ -6,6 +6,8 @@ Trans-Cord is a Discord bot designed to facilitate text translation using the De
 easily translate text messages, access their translation history, delete previous translations, and manage their
 language preferences. This bot aims to provide a seamless translation experience within Discord servers.
 
+To see our [api docs](http://15.188.11.78:3000/api-docs/) you can click on the link.
+
 ## Features
 
 - **Translation Command:** Utilize the `/translate <text> [lang]` command to translate text using the DeepL API. The

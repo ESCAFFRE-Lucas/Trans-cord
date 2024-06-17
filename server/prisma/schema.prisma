@@ -15,19 +15,17 @@ model Translate {
   text            String
   language        String
   translationText String
-  user            User     @relation(fields: [discordId], references: [discordId])
+  user            User     @relation(fields: [discordId], references: [id])
   discordId       String
   createdAt       DateTime @default(now())
 }
 
 model User {
-  id        String      @unique @default(uuid())
+  id        String      @id @default(uuid())
   username  String      @default("")
   password  String      @default("")
   role      String      @default("user")
-  discordId String      @unique
+  discordId String?     @unique
   createdAt DateTime    @default(now())
   Translate Translate[]
-
-  @@id([id, discordId])
 }

@@ -4,7 +4,7 @@ export interface JwtPayload   {
 	id: string | undefined
 	username: string | undefined
 	role: string | undefined
-	discordId: string | undefined
+	discordId: string | null
 }
 
 export const signToken = (payload: JwtPayload) => {

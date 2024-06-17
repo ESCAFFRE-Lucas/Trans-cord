@@ -10,14 +10,13 @@ const register = async (req: Request, res: Response) => {
 		const user = await addUser({
 			username: username,
 			password: await bcrypt.hash(password, 10),
-			discordId: '123456789',
-			role: 'admin'
 		});
 
 		const token = signToken({ id: user?.id, username: user?.username, role: user?.role, discordId: user?.discordId, });
-		res.status(201).json({ token });
+
+		return res.status(201).send({ status: 201, message: "Success", data: token });
 	} catch (error) {
-		res.status(400).json(error);
+		return res.status(400).send(error);
 	}
 };
 
@@ -30,10 +29,10 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
 			return;
 		}
 		if (!bcrypt.compareSync(password, user.password)) {
-			next((new HttpException(401, 'Invalid credentials')));
+			next(new HttpException(401, 'Invalid credentials'));
 		}
 		const token = signToken({ id: user.id, username: user.username, role: user.role, discordId: user.discordId });
-		res.status(200).json({ token });
+		res.status(200).json({ status: 200, message: "Success", data: token });
 	} catch (error) {
 		next(new HttpException(400, 'Something went wrong'));
 		console.log('Error:', error);

@@ -10,7 +10,7 @@ import cors from 'cors'
 import 'dotenv/config';
 import discordRouter from "./discord/discord.router";
 import userRouter from "./user/user.router";
-import { Client, IntentsBitField } from "discord.js";
+import { Client, IntentsBitField, GatewayIntentBits } from "discord.js";
 import prisma from "./lib/prisma";
 
 const port = +(process.env.PORT || 3000);
@@ -24,8 +24,12 @@ const client = new Client({
 		IntentsBitField.Flags.GuildMembers,
 		IntentsBitField.Flags.GuildMessages,
 		IntentsBitField.Flags.MessageContent,
+		GatewayIntentBits.Guilds
 	],
 });
+
+client.login(process.env.DISCORD_TOKEN!);
+
 
 const swaggerOptions: SwaggerOptions = {
 	definition: {

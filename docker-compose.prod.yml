@@ -3,13 +3,12 @@ version: '3.7'
 services:
   bot:
     platform: "linux/amd64"
-    image: tonycava/dev-api-discord-bot:latest
+    image: tonycava/transcord-bot:latest
     container_name: discord-bot
     build:
       context: bot
     environment:
       DISCORD_TOKEN: ${DISCORD_TOKEN}
-      DISCORD_GUILD_ID: ${DISCORD_GUILD_ID}
       DISCORD_CLIENT_ID: ${DISCORD_CLIENT_ID}
       API_ACCESS_TOKEN: ${API_ACCESS_TOKEN}
       API_URL: ${API_URL}
@@ -19,7 +18,7 @@ services:
     ports:
       - "3000:3000"
     platform: "linux/amd64"
-    image: tonycava/dev-api-server:latest
+    image: tonycava/transcord-app:latest
     container_name: api-server
     build:
       context: server
@@ -29,6 +28,9 @@ services:
       API_KEY_DEEPL: ${API_KEY_DEEPL}
       REDIS_URL: ${REDIS_URL}
       API_ACCESS_TOKEN: ${API_ACCESS_TOKEN}
+      DISCORD_TOKEN: ${DISCORD_TOKEN}
+      DISCORD_REDIRECT_URI: ${DISCORD_REDIRECT_URI}
+
     restart: always
   redis:
     image: redis

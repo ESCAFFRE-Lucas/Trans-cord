@@ -5,13 +5,14 @@ import { errorMiddleware } from './common/middleware';
 import translateRouter from './translate/translate.router';
 import authRouter from './auth/auth.router';
 import redis from './lib/redis';
+import prisma from "./lib/prisma";
+
 import cors from 'cors'
 
 import 'dotenv/config';
 import discordRouter from "./discord/discord.router";
 import userRouter from "./user/user.router";
 import { Client, IntentsBitField, GatewayIntentBits } from "discord.js";
-import prisma from "./lib/prisma";
 
 const port = +(process.env.PORT || 3000);
 export const app = express();
@@ -29,7 +30,6 @@ const client = new Client({
 });
 
 client.login(process.env.DISCORD_TOKEN!);
-
 
 const swaggerOptions: SwaggerOptions = {
 	definition: {

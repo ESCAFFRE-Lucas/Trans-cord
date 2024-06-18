@@ -9,6 +9,7 @@ import cors from 'cors'
 
 import 'dotenv/config';
 import discordRouter from "./discord/discord.router";
+import userRouter from "./user/user.router";
 
 const port = +(process.env.PORT || 3000);
 export const app = express();
@@ -42,6 +43,7 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 // }));
 
 app.use('/translate', translateRouter);
+app.use('/user', userRouter);
 app.use('/auth', authRouter);
 app.use('/api/auth/discord/redirect', discordRouter);
 

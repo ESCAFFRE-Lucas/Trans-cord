@@ -27,6 +27,10 @@ const editProfile = async (req: Request, res: Response) => {
 const getGraph = async (req: Request, res: Response) => {
 	const discordId = res.locals.user.discordId;
 
+	if (!discordId) {
+		return res.send({ status: 200, message: "Successfully get graph", data: [] });
+
+	}
 
 	const translations = await prisma.translate.groupBy({
 		by: ['language', 'createdAt'],

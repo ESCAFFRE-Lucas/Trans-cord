@@ -18,7 +18,7 @@ paths:
       summary: Translate a text
       description: Translate a text
       operationId: addTranslate
-      security: []
+      security: [ ]
       requestBody:
         $ref: '#/components/requestBodies/TranslateCreation'
       responses:
@@ -34,8 +34,7 @@ paths:
       summary: Get all traductions
       description: Returns all traductions
       operationId: getTraductions
-      security:
-        - apiKey: [ ]
+      security: [ ]
       responses:
         '200':
           description: Traductions fetched successfully
@@ -54,8 +53,7 @@ paths:
       summary: Get a translation by discord id
       description: Get a translation by discord id
       operationId: getTraductionByDiscordId
-      security:
-        - apiKey: [ ]
+      security: [ ]
       parameters:
         - name: discordId
           in: path
@@ -66,6 +64,33 @@ paths:
       responses:
         '200':
           description: Traductions fetched successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Translate'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    delete:
+      tags:
+        - Translate
+      summary: Delete a translation by translate id
+      description: Delete a translation by translate id
+      operationId: deleteTraductionByTranslateId
+      security: [ ]
+      parameters:
+        - name: translateId
+          in: path
+          description: Translate id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Traductions deleted successfully
           content:
             application/json:
               schema:

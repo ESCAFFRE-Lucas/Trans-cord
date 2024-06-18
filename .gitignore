@@ -76,14 +76,14 @@ web_modules/
 <<<<<<< HEAD
 server/.env
 =======
-.env
+server/.env
 >>>>>>> a189d25abe34dba047a061b264e4aef117a3e675
 .env.development.local
 .env.test.local
 .env.production.local
 .env.local
 <<<<<<< HEAD
-.env
+server/.env
 
 *.db
 =======
@@ -142,5 +142,5 @@ dist
 .idea
 /server/prisma/dev.db
 /server/prisma/dev.db-journal
-/prisma/dev.db
+/server/prisma/dev.db
 /prisma/dev.db-journal

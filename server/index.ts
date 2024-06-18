@@ -1,16 +1,18 @@
 import express from 'express';
-import swaggerJSDoc from 'swagger-jsdoc';
+import swaggerJSDoc, { Options } from 'swagger-jsdoc';
 import * as OpenApiValidator from 'express-openapi-validator';
 import swaggerUi, { SwaggerOptions } from 'swagger-ui-express';
 import { errorMiddleware } from './common/middleware';
 import translateRouter from './translate/translate.router';
 import authRouter from './auth/auth.router';
 import redis from './lib/redis';
+import dotenv from 'dotenv';
 
-import 'dotenv/config';
+dotenv.config();
 
 const port = +(process.env.PORT || 3000);
 const app = express();
+
 
 const swaggerOptions: SwaggerOptions = {
 	definition: {
@@ -20,7 +22,7 @@ const swaggerOptions: SwaggerOptions = {
 			version: '1.0.0',
 		}
 	},
-	apis: [`${__dirname}/**/*.ts`, `${__dirname}/**/*.yaml`, `${__dirname}/**/*.yml`],
+	apis: [`${__dirname}/**/*.ts`, `${__dirname}/**/*.yaml`, `${__dirname}/*.yml`],
 };
 
 app.get('/', async (req, res) => {
@@ -29,14 +31,11 @@ app.get('/', async (req, res) => {
 	return res.send({ message: value });
 });
 
-const swaggerDocs = swaggerJSDoc(swaggerOptions);
-app.use(express.json());
+const swaggerDocs = swaggerJSDoc(swaggerOptions as Options);
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
-// app.use(OpenApiValidator.middleware({
-//  apiSpec: `${__dirname}/swagger-config.yml`,
-// }));
+app.use(express.json());
 
 app.use('/translate', translateRouter);
 app.use('/auth', authRouter);
@@ -53,3 +52,5 @@ if (process.env.NODE_ENV !== 'test') {
 		console.log(`Swagger is running on http://localhost:${port}/api-docs`);
 	});
 }
+
+export default app;

@@ -1,7 +1,13 @@
 import * as deepl from 'deepl-node';
 import dotenv from 'dotenv';
 import { Request, Response } from 'express';
-import { addTranslate, createUserWithDiscordId, getTranslateByDiscordId, getUserByDiscordId } from './translate.service';
+import {
+	addTranslate,
+	createUserWithDiscordId, getLanguageTranslateByUserId,
+	getTranslateByDiscordId,
+	getTranslatesByUserId,
+	getUserByDiscordId
+} from './translate.service';
 import redis from '../lib/redis';
 import { type TargetLanguageCode } from 'deepl-node';
 
@@ -47,7 +53,21 @@ const getTranslationsByDiscordId = async (req: Request, res: Response) => {
 	return res.status(200).send({ message: 'translation fetched', data: translations });
 };
 
+const getTranslationsByUserId = async (req: Request, res: Response) => {
+	const { userId } = req.params;
+	const translations = await getTranslatesByUserId(userId);
+	return res.status(200).send({ message: 'translation fetched', data: translations });
+}
+
+const getLanguageTranslationsByUserId = async (req: Request, res: Response) => {
+	const { userId } = req.params;
+	const translations = await getLanguageTranslateByUserId(userId);
+	return res.status(200).send({ message: 'translation fetched', data: translations });
+}
+
 export default {
 	translateString,
-	getTranslationsByDiscordId
+	getTranslationsByDiscordId,
+	getTranslationsByUserId,
+	getLanguageTranslationsByUserId
 };

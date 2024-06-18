@@ -1,7 +1,7 @@
 import prisma from '../lib/prisma';
-import exp from 'constants';
+import { User } from "@prisma/client";
 
-export const addUser = async (user: any) => {
+export const addUser = async (user: Omit<User, "id"|"createdAt">) => {
 	return prisma.user.create({
 		data: user
 	});

@@ -33,3 +33,21 @@ export const getTranslateByDiscordId = async (discordId: string) => {
 		where: { discordId }
 	});
 }
+
+export const getTranslatesByUserId = async (userId: string) => {
+	return prisma.translate.findMany({
+		where: { user: { id: userId } }
+	});
+}
+
+export const getLanguageTranslateByUserId = async (userId: string) => {
+	return prisma.translate.groupBy({
+		by: ['language'],
+		where: {
+			user: { id: userId }
+		},
+		_count: {
+			language: true,
+		},
+	});
+}

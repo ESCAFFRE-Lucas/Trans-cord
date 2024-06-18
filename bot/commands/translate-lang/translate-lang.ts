@@ -4,21 +4,15 @@ import api, { createEmbed, Option } from '../../common/utils';
 import { AxiosResponse } from 'axios';
 import { Translation } from '../../models';
 
-const translateCommand =
+const translateLangCommand =
 	new SlashCommandBuilder()
-		.setName('translate')
-		.setDescription('Translate an entire text')
+		.setName('translate-lang')
+		.setDescription('Change your preferred lang')
 		.addStringOption(option =>
 			option
-				.setName('text')
-				.setDescription('Text to translate')
+				.setName(Option.LANG)
+				.setDescription('Language to translate to')
 				.setRequired(true)
-		)
-		.addStringOption(option =>
-			option
-				.setName('lang')
-				.setDescription('Lang to translate')
-				.setRequired(false)
 				.addChoices(
 					// Sort the array based on some criteria (e.g., alphabetically by language name)
 					...options.sort((a, b) => a.value.localeCompare(b.value))
@@ -26,26 +20,22 @@ const translateCommand =
 		)
 		.toJSON();
 
-
-const translateAction = async (interaction: ChatInputCommandInteraction) => {
-	const textToTranslate = interaction.options.getString(Option.TEXT) ?? 'Hello everyone!';
-	const langToTranslate = interaction.options.getString(Option.LANG);
+const translateLangAction = async (interaction: ChatInputCommandInteraction) => {
+	const language = interaction.options.getString(Option.LANG)!;
 
 	try {
 		await interaction.deferReply();
+		const { id: discordId } = interaction.user;
 
-		const response = await api.post<AxiosResponse<Translation>>('/translate', {
-			text: textToTranslate,
-			language: langToTranslate,
-			discordId: interaction.user.id
+		await api.patch<AxiosResponse<Translation>>('/translate', {
+			language,
+			discordId
 		});
-		const { translationText } = response.data.data;
 
 		const embed = createEmbed({
 			title: 'Translation Result',
 			fields: [
-				{ name: 'Text to translate', value: textToTranslate },
-				{ name: 'Translated text', value: translationText, inline: true },
+				{ name: 'Successfully change', value: `You just change you preferred lang to ${language}` },
 			],
 			color: '#00ff00',
 			author: {
@@ -87,6 +77,6 @@ const translateAction = async (interaction: ChatInputCommandInteraction) => {
 };
 
 export default {
-	translateCommand,
-	translateAction
+	translateLangAction,
+	translateLangCommand
 };

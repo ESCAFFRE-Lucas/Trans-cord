@@ -11,7 +11,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const port = +(process.env.PORT || 3000);
-const app = express();
+export const app = express();
 
 
 const swaggerOptions: SwaggerOptions = {
@@ -26,7 +26,7 @@ const swaggerOptions: SwaggerOptions = {
 };
 
 app.get('/', async (req, res) => {
-	redis.set('hello', 'world');
+	redis.set('hello', Math.random().toString());
 	const value = await redis.get('hello');
 	return res.send({ message: value });
 });
@@ -39,10 +39,6 @@ app.use(express.json());
 
 app.use('/translate', translateRouter);
 app.use('/auth', authRouter);
-
-app.get('/hello', (req, res) => {
-	res.send('Hello World!');
-});
 
 app.use(errorMiddleware)
 

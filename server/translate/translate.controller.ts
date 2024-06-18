@@ -1,24 +1,14 @@
 import * as deepl from 'deepl-node';
-import dotenv from 'dotenv';
 import { Request, Response } from 'express';
-import {
-	addTranslate,
-	createUserWithDiscordId, getLanguageTranslateByUserId,
-	getTranslateByDiscordId,
-	getTranslatesByUserId,
-	getUserByDiscordId
-} from './translate.service';
+import { addTranslate, createUserWithDiscordId, deleteTranslateById, getTranslateByDiscordId, getUserByDiscordId } from './translate.service';
 import redis from '../lib/redis';
 import { type TargetLanguageCode } from 'deepl-node';
 
-dotenv.config();
 
 const translator = new deepl.Translator(process.env.API_KEY_DEEPL!);
 const translateString = async (req: Request, res: Response) => {
 	const { text, language, discordId } = req.body;
 	let preferredLanguage = await redis.get(discordId);
-
-	console.log('preferredLanguage', preferredLanguage);
 
 	if (!preferredLanguage) {
 		preferredLanguage = 'en-GB';
@@ -53,21 +43,22 @@ const getTranslationsByDiscordId = async (req: Request, res: Response) => {
 	return res.status(200).send({ message: 'translation fetched', data: translations });
 };
 
-const getTranslationsByUserId = async (req: Request, res: Response) => {
-	const { userId } = req.params;
-	const translations = await getTranslatesByUserId(userId);
-	return res.status(200).send({ message: 'translation fetched', data: translations });
-}
+const deleteTranslation = async (req: Request, res: Response) => {
+	const { translateId } = req.params;
+	const translate = await deleteTranslateById(translateId);
+	return res.status(200).send({ message: 'translation fetched', data: translate });
+};
 
-const getLanguageTranslationsByUserId = async (req: Request, res: Response) => {
-	const { userId } = req.params;
-	const translations = await getLanguageTranslateByUserId(userId);
-	return res.status(200).send({ message: 'translation fetched', data: translations });
-}
+const changePreferredLang = async (req: Request, res: Response) => {
+	const { language, discordId } = req.body;
+	redis.set(discordId, language);
+	return res.status(200).send({ message: 'translation fetched', data: { language, discordId } });
+};
+
 
 export default {
 	translateString,
 	getTranslationsByDiscordId,
-	getTranslationsByUserId,
-	getLanguageTranslationsByUserId
+	deleteTranslation,
+	changePreferredLang
 };

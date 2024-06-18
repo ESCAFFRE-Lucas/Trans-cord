@@ -30,6 +30,10 @@ jobs:
           sudo docker build -t $DOCKER_HUB_USERNAME/$IMAGE_NAME_SERVER_API:$IMAGE_HASH server
           sudo docker push $DOCKER_HUB_USERNAME/$IMAGE_NAME_SERVER_API:$IMAGE_HASH
 
+      - name: Debug Environment Variables
+        run: |
+          echo "DISCORD_TOKEN: $DISCORD_TOKEN"
+
       - name: Deploy
         env:
           DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}

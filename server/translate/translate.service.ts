@@ -28,9 +28,18 @@ export const getTranslates = async () => {
 	return prisma.translate.findMany();
 }
 
+export const deleteTranslateById = async (translateId: string) => {
+	return prisma.translate.delete({
+		where: { id: translateId }
+	});
+
+}
+
 export const getTranslateByDiscordId = async (discordId: string) => {
 	return prisma.translate.findMany({
-		where: { discordId }
+		where: { discordId },
+		orderBy: { createdAt: 'desc' },
+		take: 10,
 	});
 }
 

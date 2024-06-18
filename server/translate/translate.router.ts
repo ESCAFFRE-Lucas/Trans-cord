@@ -1,15 +1,15 @@
-import { Router } from "express";
-import translateController from "./translate.controller";
-import { checkAuth } from "../common/middleware";
+import { Router } from 'express';
+import translateController from './translate.controller';
+import { checkRequestIsFromDiscord } from '../common/middleware';
 
 const translateRouter = Router();
 
-translateRouter.post('/', translateController.translateString);
+translateRouter.post('/', checkRequestIsFromDiscord, translateController.translateString);
 
-translateRouter.get('/:discordId', translateController.getTranslationsByDiscordId);
+translateRouter.patch('/', checkRequestIsFromDiscord, translateController.changePreferredLang);
 
-translateRouter.get('/user/:userId', checkAuth, translateController.getTranslationsByUserId);
+translateRouter.get('/:discordId', checkRequestIsFromDiscord, translateController.getTranslationsByDiscordId);
+translateRouter.delete('/:translateId', checkRequestIsFromDiscord, translateController.deleteTranslation);
 
-translateRouter.get('/language/:userId', checkAuth, translateController.getLanguageTranslationsByUserId);
 
 export default translateRouter;
